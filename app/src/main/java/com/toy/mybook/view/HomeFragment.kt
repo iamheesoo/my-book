@@ -1,66 +1,49 @@
 package com.toy.mybook.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.toy.mybook.contract.HomeConstract
+import com.toy.mybook.contract.HomeContract
 import com.toy.mybook.databinding.FragmentHomeBinding
 import com.toy.mybook.databinding.ItemBookBinding
-import com.toy.mybook.model.BookDTO
+import com.toy.mybook.DTO.BookDTO
 import com.toy.mybook.presenter.HomePresenter
+import java.util.*
+import kotlin.concurrent.schedule
 
-class HomeFragment : Fragment(), HomeConstract.View{
+class HomeFragment : Fragment(), HomeContract.View{
     lateinit var binding:FragmentHomeBinding
     val TAG:String="HomeFragment"
     var currentUserUid:String?=null
-
     var presenter:HomePresenter?=null
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(TAG, "onCreateView")
         presenter= HomePresenter(this)
 
         binding= FragmentHomeBinding.inflate(LayoutInflater.from(activity), container, false)
         binding.fragHomeRecyclerviewAladin.adapter=HomeFragmentRecyclerviewAdapter()
-        binding.fragHomeRecyclerviewAladin.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding.fragHomeRecyclerviewAladin.layoutManager=GridLayoutManager(context,2)
 
-        currentUserUid=FirebaseAuth.getInstance().currentUser.uid
-
-        binding.imageView.setOnClickListener {
-            if(binding.imageView.isSelected){
-                binding.imageView.isSelected=false
-            }
-            else{
-                binding.imageView.isSelected=true
-                binding.imageViewAnimation.likeAnimation()
-
-            }
+        binding.searchIv.setOnClickListener {
+            startActivity(Intent(context, SearchActivity::class.java))
         }
-
+        currentUserUid=FirebaseAuth.getInstance().currentUser.uid
 
         return binding.root
     }
-
-    fun viewHeart(){
-        binding.imageView.visibility=View.VISIBLE
-        binding.imageViewAnimation.likeAnimation()
-        
-    }
-
 
     inner class HomeFragmentRecyclerviewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         lateinit var binding: ItemBookBinding
@@ -80,7 +63,8 @@ class HomeFragment : Fragment(), HomeConstract.View{
 
             val customViewHolder=CustomViewHolder(binding.root)
             binding.bookIv.setOnLongClickListener {
-                presenter?.setHeart(customViewHolder.adapterPosition)
+                val position=customViewHolder.adapterPosition
+                presenter?.setHeart(bookList[position].imgUrl, bookList[position].title)
                 true
             }
             return customViewHolder
@@ -105,7 +89,13 @@ class HomeFragment : Fragment(), HomeConstract.View{
     }
 
     override fun showHeart() {
-        TODO("Not yet implemented")
+        binding.imageView.isSelected=true
+        binding.imageView.visibility=View.VISIBLE
+        binding.imageViewAnimation.likeAnimation()
+        Timer().schedule(1500){
+            binding.imageView.isSelected=false
+            binding.imageView.visibility=View.INVISIBLE
+        }
     }
 }
 

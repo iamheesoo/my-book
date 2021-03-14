@@ -8,4 +8,6 @@
     <string name="signin_email">SIGN IN EMAIL</string>
     <string name="signin_facebook">SIGN IN FACEBOOK</string>
     <string name="signin_google">SIGN IN GOOGLE</string>
+    <string name="search_title">무엇을\n찾고 계신가요?</string>
+    <string name="search">검색어을 입력하세요.</string>
 </resources>

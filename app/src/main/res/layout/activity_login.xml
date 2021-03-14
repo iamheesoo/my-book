@@ -56,20 +56,25 @@
             android:layout_marginBottom="35dp"
             android:text="@string/signin_email"
             android:background="@drawable/btn_custom"/>
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/facebook_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
-            facebook:com_facebook_login_text="@string/signin_facebook" />
-        <com.google.android.gms.common.SignInButton
+        <android.widget.Button
             android:id="@+id/google_sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="5dp"
+
+            android:text="@string/signin_google"
+            android:background="@drawable/btn_signin_google"/>
+        <android.widget.Button
+            android:id="@+id/facebook_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="80dp"
+            android:text="@string/signin_facebook"
+            android:background="@drawable/btn_signin_facebook"/>
+
     </LinearLayout>
 </RelativeLayout>
