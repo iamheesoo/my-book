@@ -13,6 +13,10 @@
             android:layout_height="match_parent"
             android:padding="8dp">
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/bestseller_title"/>
+            <ImageView
                 android:id="@+id/search_iv"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -36,10 +40,7 @@
         android:orientation="vertical"
         android:layout_below="@id/toolbar_division">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/bestseller_title"/>
+<!--        bestseller 위치-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/frag_home_recyclerview_aladin"
             android:layout_width="match_parent"

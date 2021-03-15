@@ -41,11 +41,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_query"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/search"
                     android:textSize="25sp"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
                 android:id="@+id/iv_search"

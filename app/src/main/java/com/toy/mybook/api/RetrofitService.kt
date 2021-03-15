@@ -9,5 +9,5 @@ import retrofit2.http.Query
 interface RetrofitService {
 
     @GET("book.xml")
-    fun getSearchBookList(@Header("X-Naver-Client-Id") cid: String, @Header("X-Naver-Client-Secret") secret: String, @Query("query") query: String):Call<MyResponse>
+    fun getSearchBookList(@Header("X-Naver-Client-Id") cid: String, @Header("X-Naver-Client-Secret") secret: String, @Query("query") query: String, @Query("display") display: Int):Call<MyResponse>
 }

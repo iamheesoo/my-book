@@ -1,58 +1,66 @@
 package com.toy.mybook.api
 
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.PropertyElement
-import com.tickaroo.tikxml.annotation.Xml
+import org.simpleframework.xml.Element
+import org.simpleframework.xml.ElementList
+import org.simpleframework.xml.Root
+import java.io.Serializable
 
 
-@Xml(name="rss")
-data class MyResponse(
-    @Element
-    val channel: Channel
+@Root(name="rss", strict = false)
+data class MyResponse @JvmOverloads constructor(
+    @field:Element
+    var channel: Channel
 )
+{
+    constructor(): this(Channel())
+}
 
-@Xml(name="channel")
+@Root(name="channel")
 data class Channel(
-    @PropertyElement
-    val title: String,
-    @PropertyElement
-    val link: String,
-    @PropertyElement
-    val description: String,
-    @PropertyElement
-    val lastBuildDate: String,
-    @PropertyElement
-    val total: Int,
-    @PropertyElement
-    val start: Int,
-    @PropertyElement
-    val display: Int,
-    @Element
-    val item: List<Item>
+    @field:Element
+    var title: String,
+    @field:Element
+    var link: String,
+    @field:Element(required = false)
+    var description: String,
+    @field:Element
+    var lastBuildDate: String,
+    @field:Element
+    var total: Int,
+    @field:Element
+    var start: Int,
+    @field:Element
+    var display: Int,
+    @field:ElementList(type=Item::class, inline=true)
+    var item: ArrayList<Item>
 )
+{
+    constructor(): this("","","","",0,0,0,arrayListOf<Item>())
+}
 
-@Xml(name="item")
+@Root(name="item")
 data class Item(
-    @PropertyElement
-    val title: String?,
-    @PropertyElement
-    val link: String?,
-    @PropertyElement
-    val image: String?,
-    @PropertyElement
-    val author: String?,
-    @PropertyElement
-    val price: Int?,
-    @PropertyElement
-    val discount : Int?,
-    @PropertyElement
-    val publisher: String?,
-    @PropertyElement
-    val pubdate: String?,
-    @PropertyElement
-    val isbn: String?,
-    @PropertyElement
-    val description: String?
-){
+    @field:Element
+    var title: String?,
+    @field:Element
+    var link: String?,
+    @field:Element
+    var image: String?,
+    @field:Element
+    var author: String?,
+    @field:Element
+    var price: Int?,
+    @field:Element(required=false)
+    var discount : Int?,
+    @field:Element
+    var publisher: String?,
+    @field:Element
+    var pubdate: String?,
+    @field:Element
+    var isbn: String?,
+    @field:Element(required=false)
+    var description: String?
+): Serializable
+{
     constructor(): this(null,null,null,null,null,null,null,null,null,null)
 }

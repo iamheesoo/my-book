@@ -14,8 +14,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.toy.mybook.contract.HomeContract
 import com.toy.mybook.databinding.FragmentHomeBinding
-import com.toy.mybook.databinding.ItemBookBinding
 import com.toy.mybook.DTO.BookDTO
+import com.toy.mybook.databinding.ItemHomeBookBinding
 import com.toy.mybook.presenter.HomePresenter
 import java.util.*
 import kotlin.concurrent.schedule
@@ -46,7 +46,7 @@ class HomeFragment : Fragment(), HomeContract.View{
     }
 
     inner class HomeFragmentRecyclerviewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-        lateinit var binding: ItemBookBinding
+        lateinit var binding: ItemHomeBookBinding
         var bookList=arrayListOf<BookDTO>()
         var firestore: FirebaseFirestore?=null
 
@@ -57,7 +57,7 @@ class HomeFragment : Fragment(), HomeContract.View{
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            binding= ItemBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            binding= ItemHomeBookBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             firestore= FirebaseFirestore.getInstance()
             Log.i(TAG, "onCreateViewHolder")
 
