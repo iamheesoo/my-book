@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchModel(_preseneter: SearchContract.Present):SearchContract.Model {
+class ApiModel(_preseneter: SearchContract.Present):SearchContract.Model {
     val TAG="SearchModel"
     var presenter: SearchContract.Present?=null
 

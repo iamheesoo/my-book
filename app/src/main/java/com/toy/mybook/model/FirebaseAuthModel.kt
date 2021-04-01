@@ -2,25 +2,22 @@ package com.toy.mybook.model
 
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.toy.mybook.contract.LoginContract
 import com.toy.mybook.presenter.LoginPresenter
 
-class LoginModel(_presenter: LoginContract.Presenter) :LoginContract.Model{
-    val TAG="LoginModel"
-    var presenter: LoginContract.Presenter?=null
+class FirebaseAuthModel(){
+    val TAG="FirebaseAuthModel"
 
-    init{
-        presenter=_presenter
-    }
-    override fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+    fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
 
         /**
          * Presenter 수정 필요
          */
     }
 
-    override fun addUserIfNotExists(uid: String, email: String) {
+    fun addUserIfNotExists(uid: String, email: String) {
         Log.i(TAG, "addUserIfNotExists")
         var firestore= FirebaseFirestore.getInstance()
         firestore.collection("users").document(uid).get()
@@ -44,4 +41,9 @@ class LoginModel(_presenter: LoginContract.Presenter) :LoginContract.Model{
         firestore.collection("users").document(uid!!).set(map)
     }
 
+    fun logout(){
+        Log.i(TAG, "logout")
+        val auth=FirebaseAuth.getInstance()
+        auth.signOut()
+    }
 }

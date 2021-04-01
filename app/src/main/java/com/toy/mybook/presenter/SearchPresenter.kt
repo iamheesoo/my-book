@@ -3,7 +3,7 @@ package com.toy.mybook.presenter
 import android.util.Log
 import com.toy.mybook.api.Item
 import com.toy.mybook.contract.SearchContract
-import com.toy.mybook.model.SearchModel
+import com.toy.mybook.model.ApiModel
 
 class SearchPresenter(_view: SearchContract.View) :SearchContract.Present{
     val TAG="SearchPresenter"
@@ -12,7 +12,7 @@ class SearchPresenter(_view: SearchContract.View) :SearchContract.Present{
 
     init{
         view=_view
-        model= SearchModel(this)
+        model= ApiModel(this)
     }
 
     override fun searchBook(query: String) {

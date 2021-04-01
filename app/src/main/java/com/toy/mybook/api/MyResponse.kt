@@ -44,7 +44,7 @@ data class Item(
     var title: String?,
     @field:Element
     var link: String?,
-    @field:Element
+    @field:Element(required=false)
     var image: String?,
     @field:Element
     var author: String?,

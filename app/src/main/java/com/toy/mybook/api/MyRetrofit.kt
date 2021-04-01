@@ -20,7 +20,6 @@ object MyRetrofit {
     }
 
     fun create():Retrofit{
-        val gson: Gson=GsonBuilder().setLenient().create()
         val interceptor=HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client=OkHttpClient.Builder()

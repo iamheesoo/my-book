@@ -26,7 +26,6 @@ class HomeModel:HomeContract.Model {
         var bookList= arrayListOf<BookDTO>()
 
 
-//        Log.i(TAG, eleAuthor.text())
         for(i in 0 until eleImg.size){
             bookList.add(
                 BookDTO(

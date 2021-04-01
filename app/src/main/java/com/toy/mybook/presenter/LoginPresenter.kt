@@ -4,35 +4,22 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.util.Base64
 import android.util.Log
-import android.widget.Toast
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.toy.mybook.R
 import com.toy.mybook.contract.LoginContract
-import com.toy.mybook.model.LoginModel
+import com.toy.mybook.model.FirebaseAuthModel
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
     val TAG="LoginPresenter"
     private var view: LoginContract.View?=null
-    private var model: LoginContract.Model?=null
+    private val authModel=FirebaseAuthModel()
     var auth:FirebaseAuth?=null
 
     init{
         view=_view
-        model= LoginModel(this)
         auth= FirebaseAuth.getInstance()
     }
 
@@ -51,7 +38,7 @@ class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
         auth?.signInWithEmailAndPassword(email, password)
             ?.addOnCompleteListener { task->
                 if(task.isSuccessful) {
-                    model?.addUserIfNotExists(auth?.uid!!, email)
+                    authModel?.addUserIfNotExists(auth?.uid!!, email)
                     view?.moveMainPage(task.result?.user)
                 }
                 else Log.i(TAG, task.exception?.message.toString())
@@ -63,7 +50,7 @@ class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task->
                 if(task.isSuccessful){
-                    model?.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
+                    authModel?.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
                     view?.moveMainPage(task.result?.user)
                 }
                 else{
