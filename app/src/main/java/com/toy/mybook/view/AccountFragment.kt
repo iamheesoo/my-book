@@ -37,7 +37,7 @@ class AccountFragment : Fragment(),AccountContract.View{
 
         auth= FirebaseAuth.getInstance()
 
-        val listMenu=arrayOf("프로필 변경","닉네임 변경", "로그아웃")
+        val listMenu=arrayOf("닉네임 변경", "로그아웃")
         val adapter=ArrayAdapter<String>(requireContext(), android.R.layout.simple_expandable_list_item_1, listMenu)
         binding.lv.adapter=adapter
         binding.lv.setOnItemClickListener { parent, view, position, id ->
@@ -47,8 +47,6 @@ class AccountFragment : Fragment(),AccountContract.View{
                     startActivity(Intent(activity, LoginActivity::class.java))
                     auth?.signOut()
                 }
-
-
             }
 
         }
@@ -56,17 +54,16 @@ class AccountFragment : Fragment(),AccountContract.View{
         presenter.getProfile()
         binding.ivProfile.setOnClickListener { openGallery() }
 
-
         return binding.root
     }
 
     override fun setProfile(uri:Any?) {
         Log.i(TAG, uri.toString())
         if(uri==null){
-            Glide.with(this).load(R.drawable.ic_baseline_person_24).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
+            Glide.with(this).load(R.drawable.empty).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
         }
         else{
-            Glide.with(this).load(uri.toString()).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
+            Glide.with(this).load(uri.toString()).error(R.drawable.empty).fallback(R.drawable.empty).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
         }
 
     }

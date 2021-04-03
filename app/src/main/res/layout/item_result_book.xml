@@ -1,48 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/layout_book"
+<RelativeLayout android:id="@+id/layout_book"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
+    android:layout_height="240dp"
     android:orientation="horizontal"
-    android:padding="20dp">
+    android:padding="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/book_iv"
-        android:layout_width="170dp"
-        android:layout_height="250dp"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_heart"/>
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="30dp">
+        <ImageView
+            android:id="@+id/book_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_heart"/>
+    </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/card_view"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/book_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:textStyle="bold"
+                    android:textSize="25sp"/>
+                <TextView
+                    android:id="@+id/book_tv_author"
+                    android:text="book_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:textSize="17sp"/>
+                <TextView
+                    android:id="@+id/book_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="publisher"
+                    android:textSize="15sp"/>
+
+        </LinearLayout>
+    <TextView
+        android:id="@+id/tv_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/book_iv"
-        android:layout_marginTop="60dp"
-        android:orientation="vertical"
-        android:layout_marginLeft="40dp">
-        <TextView
-            android:id="@+id/book_tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/book_iv"
-            android:text="title"
-            android:textStyle="bold"
-            android:textSize="30sp"/>
-        <TextView
-            android:id="@+id/book_tv_author"
-            android:text="book_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/book_publisher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="publisher"
-            android:textSize="17sp"/>
-    </LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="&#8942;"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

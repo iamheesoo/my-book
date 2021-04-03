@@ -9,13 +9,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.toy.mybook.contract.LoginContract
 import com.toy.mybook.model.FirebaseAuthModel
+import com.toy.mybook.model.FirestoreModel
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
+class LoginPresent(_view:LoginContract.View):LoginContract.Present {
     val TAG="LoginPresenter"
     private var view: LoginContract.View?=null
-    private val authModel=FirebaseAuthModel()
+    private val authModel=FirebaseAuthModel
+    private val storeModel=FirestoreModel
     var auth:FirebaseAuth?=null
 
     init{
@@ -38,7 +40,7 @@ class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
         auth?.signInWithEmailAndPassword(email, password)
             ?.addOnCompleteListener { task->
                 if(task.isSuccessful) {
-                    authModel?.addUserIfNotExists(auth?.uid!!, email)
+                    storeModel.addUserIfNotExists(auth?.uid!!, email)
                     view?.moveMainPage(task.result?.user)
                 }
                 else Log.i(TAG, task.exception?.message.toString())
@@ -50,7 +52,7 @@ class LoginPresenter(_view:LoginContract.View):LoginContract.Presenter {
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task->
                 if(task.isSuccessful){
-                    authModel?.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
+                    storeModel.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
                     view?.moveMainPage(task.result?.user)
                 }
                 else{

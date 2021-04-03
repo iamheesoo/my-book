@@ -10,14 +10,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ApiModel(_preseneter: SearchContract.Present):SearchContract.Model {
-    val TAG="SearchModel"
-    var presenter: SearchContract.Present?=null
+object ApiModel{
+    val TAG="ApiModel"
 
-    init{
-        presenter=_preseneter
-    }
-    override fun getSearchResult(query: String): ArrayList<Item> {
+    fun getSearchResult(query: String, listener: ApiListener) {
         Log.i(TAG, "getSearchResult")
         val retrofit=MyRetrofit.create()
         val service=retrofit.create(RetrofitService::class.java)
@@ -31,7 +27,7 @@ class ApiModel(_preseneter: SearchContract.Present):SearchContract.Model {
                 Log.i("response size", result?.channel?.item?.size.toString())
                 list=result?.channel?.item!!
                 Log.i(TAG, list?.size.toString())
-                presenter?.startActivity(list)
+                listener.onSuccess(list)
             }
 
             override fun onFailure(call: Call<MyResponse>, t: Throwable) {
@@ -40,6 +36,11 @@ class ApiModel(_preseneter: SearchContract.Present):SearchContract.Model {
             }
         })
 
-        return list!!
+    }
+
+
+    interface ApiListener{
+        fun onSuccess(message: Any)
+        fun onFail()
     }
 }

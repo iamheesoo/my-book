@@ -59,8 +59,11 @@ data class Item(
     @field:Element
     var isbn: String?,
     @field:Element(required=false)
-    var description: String?
+    var description: String?,
+
+    var uid: String?,
+    var rating: Float?
 ): Serializable
 {
-    constructor(): this(null,null,null,null,null,null,null,null,null,null)
+    constructor(): this(null,null,null,null,null,null,null,null,null,null,null,0f)
 }

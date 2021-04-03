@@ -10,7 +10,7 @@ interface LoginContract {
         fun moveMainPage(user: FirebaseUser?)
     }
 
-    interface Presenter{
+    interface Present{
         fun signinAndSignUp(email:String, password:String)
         fun signinEmail(email:String, password:String)
 //        fun googleLogin()
@@ -20,8 +20,4 @@ interface LoginContract {
         fun printHashKey(packageManager: PackageManager, packageName: String)
     }
 
-    interface Model{
-        fun firebaseAuthWithGoogle(account: GoogleSignInAccount?)
-        fun addUserIfNotExists(uid: String, email: String)
-    }
 }

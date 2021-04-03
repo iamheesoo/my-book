@@ -7,17 +7,22 @@ import com.toy.mybook.model.ApiModel
 
 class SearchPresenter(_view: SearchContract.View) :SearchContract.Present{
     val TAG="SearchPresenter"
-    var view: SearchContract.View?=null
-    var model: SearchContract.Model?=null
-
-    init{
-        view=_view
-        model= ApiModel(this)
-    }
+    val view=_view
+    val apiModel=ApiModel
 
     override fun searchBook(query: String) {
         Log.i(TAG, "searchBook")
-        val list=model?.getSearchResult(query)
+        val listener=object:ApiModel.ApiListener{
+            override fun onSuccess(message: Any) {
+                startActivity(message as ArrayList<Item>)
+            }
+
+            override fun onFail() {
+                TODO("Not yet implemented")
+            }
+
+        }
+        apiModel.getSearchResult(query,listener)
 //        view?.startResultActivity(list!!)
 
         /**
@@ -28,7 +33,7 @@ class SearchPresenter(_view: SearchContract.View) :SearchContract.Present{
     }
 
     override fun startActivity(bookList: ArrayList<Item>) {
-        view?.startResultActivity(bookList)
+        view.startResultActivity(bookList)
     }
 
 }

@@ -1,14 +1,9 @@
 package com.toy.mybook
 
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -18,18 +13,14 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import com.toy.mybook.contract.LoginContract
 import com.toy.mybook.databinding.ActivityLoginBinding
-import com.toy.mybook.presenter.LoginPresenter
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import com.toy.mybook.presenter.LoginPresent
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
     lateinit var binding: ActivityLoginBinding
@@ -38,11 +29,11 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     var callbackManager:CallbackManager?=null
     val GOOGLE_LOGIN_CODE=9001
     val TAG="LoginActivity"
-    var presenter:LoginPresenter?=null
+    var presenter:LoginPresent?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter=LoginPresenter(this)
+        presenter=LoginPresent(this)
 
         binding= ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

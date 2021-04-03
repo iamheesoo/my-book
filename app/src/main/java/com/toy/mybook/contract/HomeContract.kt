@@ -12,8 +12,4 @@ interface HomeContract {
         fun setHeart(imgUrl: String, title: String)
     }
 
-    interface Model{
-        fun getBookList(): ArrayList<BookDTO>
-        fun setHeart(imgUrl: String, title: String)
-    }
 }

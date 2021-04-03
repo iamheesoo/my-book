@@ -9,10 +9,10 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
-class HomeModel:HomeContract.Model {
-    val TAG="HomeModel"
+object HomeModel {
+    private val TAG="HomeModel"
 
-    override fun getBookList(): ArrayList<BookDTO> {
+    fun getBookList(): ArrayList<BookDTO> {
         val baseUrl="https://www.aladin.co.kr/shop/common/wbest.aspx?BranchType=1&start=main"
         val pathImg="div a img.i_cover"
         val pathTitle=" table tbody tr td div.ss_book_list ul li a.bo3 b"
@@ -36,21 +36,6 @@ class HomeModel:HomeContract.Model {
         Log.i(TAG, "bookList size: "+bookList.size)
 
         return bookList
-    }
-
-    override fun setHeart(imgUrl: String, title: String) {
-        Log.i(TAG, "setHeart")
-        var uid=FirebaseAuth.getInstance().uid
-        var firestore= FirebaseFirestore.getInstance()
-
-        var map= mutableMapOf<String, Any>()
-        map["uid"]=uid!!
-        map["imgUrl"]=imgUrl
-        map["title"]=title
-//        var book=BookDTO(imgUrl, title, uid)
-//        map["book"]=book!!
-
-        firestore.collection("favorites").document().set(map)
     }
 
 }

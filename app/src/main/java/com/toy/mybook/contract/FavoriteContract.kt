@@ -11,7 +11,5 @@ interface FavoriteContract{
         fun getFavoriteBook()
     }
 
-    interface Model{
-        fun getFavoriteBook()
-    }
+
 }

@@ -12,7 +12,4 @@ interface SearchContract {
         fun startActivity(bookList: ArrayList<Item>)
     }
 
-    interface Model{
-        fun getSearchResult(query: String): ArrayList<Item>
-    }
 }
