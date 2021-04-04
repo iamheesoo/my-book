@@ -21,7 +21,7 @@ import com.toy.mybook.presenter.ResultPresenter
 
 class ResultActivity : AppCompatActivity(),ResultContract.View {
     lateinit var binding: ActivityResultBinding
-    val TAG="ResultActivity"
+    private val TAG="ResultActivity"
     lateinit var bookList:ArrayList<Item> // inner class에서 사용
     lateinit var presenter:ResultContract.Present
 
@@ -84,9 +84,6 @@ class ResultActivity : AppCompatActivity(),ResultContract.View {
                     when(item.itemId){
                         R.id.popup_add->{
                             presenter.setStarBook(bookList[position])
-                            /**
-                             * 즐겨찾기에 등록
-                             */
                         }
 
                     }

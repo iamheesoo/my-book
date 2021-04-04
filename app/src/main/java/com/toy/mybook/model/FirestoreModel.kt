@@ -4,13 +4,13 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.toy.mybook.DTO.BookDTO
+import com.toy.mybook.DTO.ImageDTO
 import com.toy.mybook.api.Item
 
 object FirestoreModel{
     private val TAG="FirestoreModel"
     private var firestore=FirebaseFirestore.getInstance()
     private var uid=FirebaseAuth.getInstance().uid
-
 
     fun getFavoriteBookList(listener: FirestoreListener){
         getBookList("favorites",listener)
@@ -32,15 +32,38 @@ object FirestoreModel{
                     for(document in it.documents){
                         bookList.add(document.toObject(Item::class.java)!!)
                     }
-
                     Log.i(TAG, "book size: "+ bookList.size)
-                    /**
-                     * 리스너로 presenter한테 bookList전달
-                     * presenter는 view한테 띄우기 요청
-                     */
                     listener.onSuccess(bookList)
                 }
 
+    }
+
+    fun getImage(uid: String, listener: FirestoreListener){
+        Log.i(TAG, "getImage")
+        var imgUri:Any?=null
+        firestore.collection("profileImages").document(uid).addSnapshotListener { value, error ->
+            if(value==null) return@addSnapshotListener
+
+            if(value.data!=null){
+                imgUri= value.data!!["image"]
+                listener.onSuccess(imgUri!!)
+            }
+        }
+    }
+
+    fun getRecordImage(uid: String, listener: FirestoreListener){
+        Log.i(TAG, "getRecordImage")
+        var imageList= arrayListOf<ImageDTO>()
+        firestore.collection("recordImages").whereEqualTo("uid",uid)
+                .get()
+                .addOnSuccessListener {
+                    if(it==null) return@addOnSuccessListener
+                    for(doc in it.documents){
+                        imageList.add(doc.toObject(ImageDTO::class.java)!!)
+                    }
+                    Log.i(TAG, "image size: "+imageList.size)
+                    listener.onSuccess(imageList)
+                }
     }
 
     fun addUserIfNotExists(uid: String, email: String) {
@@ -53,12 +76,12 @@ object FirestoreModel{
                     }
                     else{
                         Log.i(TAG, "there is no uid")
-                        setUser(uid, email, firestore)
+                        setUser(uid, email)
                     }
                 }
     }
 
-    private fun setUser(uid: String, email: String, firestore: FirebaseFirestore) {
+    private fun setUser(uid: String, email: String) {
         Log.i(TAG, "addUserToFirestore")
         val map= mutableMapOf<String, Any>()
         map["email"]=email
@@ -92,9 +115,6 @@ object FirestoreModel{
 
     fun setHeart(imgUrl: String, title: String) {
         Log.i(TAG, "setHeart")
-        var uid=FirebaseAuth.getInstance().uid
-        var firestore= FirebaseFirestore.getInstance()
-
         var map= mutableMapOf<String, Any>()
         map["uid"]=uid!!
         map["imgUrl"]=imgUrl
@@ -105,9 +125,6 @@ object FirestoreModel{
 
     fun setRating(book:Item, rating:Float){
         Log.i(TAG, "setRating")
-        /**
-         * uid,isbn이 같은 필드를 찾아서 rating값 수정
-         */
         var map= mutableMapOf<String, Any>()
         map["rating"]=rating
         firestore.collection("stars").document(uid+book.isbn.toString()).update(map)
@@ -121,6 +138,14 @@ object FirestoreModel{
                 }
     }
 
+    fun setData(map:HashMap<String, Any>, collectionPath:String, documentPath: String?){
+        if(documentPath==null){
+            firestore.collection(collectionPath).document().set(map)
+        }
+        else{
+            firestore.collection(collectionPath).document(documentPath).set(map)
+        }
+    }
 
     interface FirestoreListener{
         fun onSuccess(message: Any)

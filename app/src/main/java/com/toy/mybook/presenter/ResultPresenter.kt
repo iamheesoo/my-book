@@ -8,7 +8,6 @@ import com.toy.mybook.model.FirestoreModel
 class ResultPresenter(_view:ResultContract.View):ResultContract.Present {
     private val TAG="ResultPresenter"
     private val view=_view
-    private val storeModel=FirestoreModel
 
     override fun setStarBook(book: Item) {
         Log.i(TAG, "setStarBook")
@@ -29,6 +28,6 @@ class ResultPresenter(_view:ResultContract.View):ResultContract.Present {
 
         }
 
-        storeModel.setStarBook(book,listener)
+        FirestoreModel.setStarBook(book,listener)
     }
 }

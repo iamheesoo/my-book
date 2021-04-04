@@ -5,15 +5,14 @@ import com.toy.mybook.api.Item
 import com.toy.mybook.api.MyResponse
 import com.toy.mybook.api.MyRetrofit
 import com.toy.mybook.api.RetrofitService
-import com.toy.mybook.contract.SearchContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object ApiModel{
-    val TAG="ApiModel"
+object APIModel{
+    private val TAG="APIModel"
 
-    fun getSearchResult(query: String, listener: ApiListener) {
+    fun getSearchResult(query: String, listener: APIListener) {
         Log.i(TAG, "getSearchResult")
         val retrofit=MyRetrofit.create()
         val service=retrofit.create(RetrofitService::class.java)
@@ -24,7 +23,6 @@ object ApiModel{
             override fun onResponse(call: Call<MyResponse>, response: Response<MyResponse>) {
                 Log.i(TAG, "onResponse")
                 var result: MyResponse? =response.body()
-                Log.i("response size", result?.channel?.item?.size.toString())
                 list=result?.channel?.item!!
                 Log.i(TAG, list?.size.toString())
                 listener.onSuccess(list)
@@ -39,8 +37,8 @@ object ApiModel{
     }
 
 
-    interface ApiListener{
+    interface APIListener{
         fun onSuccess(message: Any)
-        fun onFail()
+        fun onFailure(message: Any)
     }
 }

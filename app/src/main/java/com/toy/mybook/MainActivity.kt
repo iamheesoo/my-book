@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.toy.mybook.databinding.ActivityMainBinding
 import com.toy.mybook.view.AccountFragment
-import com.toy.mybook.view.FavoriteFragment
+import com.toy.mybook.view.RecordFragment
 import com.toy.mybook.view.HomeFragment
 import com.toy.mybook.view.StarFragment
 
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_favorite->{
                 supportFragmentManager.beginTransaction().replace(R.id.main_content,
-                    FavoriteFragment()
+                    RecordFragment()
                 ).commit()
                 return true
             }

@@ -8,7 +8,6 @@ import com.toy.mybook.model.FirestoreModel
 class StarPresenter(_view:StarContract.View) : StarContract.Present{
     private val TAG="StarPresenter"
     private val view=_view
-    private val storeModel=FirestoreModel
 
     override fun getStarBookList() {
         val listener=object:FirestoreModel.FirestoreListener{
@@ -20,11 +19,11 @@ class StarPresenter(_view:StarContract.View) : StarContract.Present{
                Log.i(TAG, "onFailure")
             }
         }
-        storeModel.getStarBookList(listener)
+        FirestoreModel.getStarBookList(listener)
     }
 
     override fun setRating(book: Item, rating: Float) {
-        storeModel.setRating(book,rating)
+        FirestoreModel.setRating(book,rating)
     }
 
 }

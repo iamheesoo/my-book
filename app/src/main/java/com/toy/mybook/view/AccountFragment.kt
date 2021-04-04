@@ -18,13 +18,14 @@ import com.toy.mybook.LoginActivity
 import com.toy.mybook.R
 import com.toy.mybook.contract.AccountContract
 import com.toy.mybook.databinding.FragmentAccountBinding
+import com.toy.mybook.model.FirebaseAuthModel
 import com.toy.mybook.presenter.AccountPresenter
 
 
 class AccountFragment : Fragment(),AccountContract.View{
     val TAG="AccountFragment"
     lateinit var binding: FragmentAccountBinding
-    var auth:FirebaseAuth?=null
+    val auth=FirebaseAuthModel
     val presenter=AccountPresenter(this)
     val REQUEST_CODE=10
 
@@ -35,8 +36,6 @@ class AccountFragment : Fragment(),AccountContract.View{
     ): View? {
         binding= FragmentAccountBinding.inflate(LayoutInflater.from(activity), container, false)
 
-        auth= FirebaseAuth.getInstance()
-
         val listMenu=arrayOf("닉네임 변경", "로그아웃")
         val adapter=ArrayAdapter<String>(requireContext(), android.R.layout.simple_expandable_list_item_1, listMenu)
         binding.lv.adapter=adapter
@@ -45,7 +44,7 @@ class AccountFragment : Fragment(),AccountContract.View{
                 2->{
                     activity?.finish()
                     startActivity(Intent(activity, LoginActivity::class.java))
-                    auth?.signOut()
+                    presenter.logout()
                 }
             }
 
@@ -63,7 +62,7 @@ class AccountFragment : Fragment(),AccountContract.View{
             Glide.with(this).load(R.drawable.empty).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
         }
         else{
-            Glide.with(this).load(uri.toString()).error(R.drawable.empty).fallback(R.drawable.empty).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
+            Glide.with(this).load(uri.toString()).fallback(R.drawable.empty).apply(RequestOptions().circleCrop()).into(binding.ivProfile)
         }
 
     }
@@ -81,6 +80,5 @@ class AccountFragment : Fragment(),AccountContract.View{
             setProfile(imgUri)
             presenter.setProfileOnDB(imgUri)
         }
-
     }
 }

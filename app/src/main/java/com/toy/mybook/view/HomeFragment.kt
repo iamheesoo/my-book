@@ -23,7 +23,6 @@ import kotlin.concurrent.schedule
 class HomeFragment : Fragment(), HomeContract.View{
     lateinit var binding:FragmentHomeBinding
     val TAG:String="HomeFragment"
-    var currentUserUid:String?=null
     var presenter:HomePresenter?=null
 
     override fun onCreateView(
@@ -40,9 +39,18 @@ class HomeFragment : Fragment(), HomeContract.View{
         binding.searchIv.setOnClickListener {
             startActivity(Intent(context, SearchActivity::class.java))
         }
-        currentUserUid=FirebaseAuth.getInstance().currentUser.uid
 
         return binding.root
+    }
+
+    override fun showHeart() {
+        binding.imageView.isSelected=true
+        binding.imageView.visibility=View.VISIBLE
+        binding.imageViewAnimation.likeAnimation()
+        Timer().schedule(1500){
+            binding.imageView.isSelected=false
+            binding.imageView.visibility=View.INVISIBLE
+        }
     }
 
     inner class HomeFragmentRecyclerviewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -83,19 +91,9 @@ class HomeFragment : Fragment(), HomeContract.View{
             holder.setIsRecyclable(false)
         }
 
-
-        inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
+        private inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     }
 
-    override fun showHeart() {
-        binding.imageView.isSelected=true
-        binding.imageView.visibility=View.VISIBLE
-        binding.imageViewAnimation.likeAnimation()
-        Timer().schedule(1500){
-            binding.imageView.isSelected=false
-            binding.imageView.visibility=View.INVISIBLE
-        }
-    }
 }
 

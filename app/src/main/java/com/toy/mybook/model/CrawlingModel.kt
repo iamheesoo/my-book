@@ -9,20 +9,17 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
-object HomeModel {
-    private val TAG="HomeModel"
+object CrawlingModel {
+    private val TAG="CrawlingModel"
 
     fun getBookList(): ArrayList<BookDTO> {
         val baseUrl="https://www.aladin.co.kr/shop/common/wbest.aspx?BranchType=1&start=main"
         val pathImg="div a img.i_cover"
         val pathTitle=" table tbody tr td div.ss_book_list ul li a.bo3 b"
-        val pathPublisher=""
-        val pathAuthor="table tbody tr td div.ss_book_list ul li a"
 
         val doc: Document = Jsoup.connect(baseUrl).userAgent("Chrome").timeout(0).get()
         val eleImg: Elements =doc.select(pathImg)
         val eleTitle: Elements =doc.select(pathTitle)
-        val eleAuthor: Elements=doc.select(pathAuthor)
         var bookList= arrayListOf<BookDTO>()
 
 

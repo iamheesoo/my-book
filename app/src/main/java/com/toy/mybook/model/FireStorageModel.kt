@@ -3,26 +3,11 @@ package com.toy.mybook.model
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
 object FireStorageModel {
     private val TAG="FireStorageModel"
-    val firestore=FirebaseFirestore.getInstance()
-
-    fun getProfile(uid: String, listener:FireStorageListener){
-        Log.i(TAG, "getProfile")
-        var imgUri:Any?=null
-        firestore.collection("profileImages").document(uid).addSnapshotListener { value, error ->
-            if(value==null) return@addSnapshotListener
-
-            if(value.data!=null){
-                imgUri= value.data!!["image"]
-                listener.onSuccess(imgUri!!)
-            }
-        }
-    }
 
     fun setProfile(uid: String, imgUri: Uri){
         Log.i(TAG, "setProfile")
@@ -32,13 +17,27 @@ object FireStorageModel {
         }.addOnSuccessListener { uri->
             var map=HashMap<String, Any>()
             map["image"]=uri.toString()
-            firestore.collection("profileImages").document(uid).set(map)
+            FirestoreModel.setData(map, "profileImages", uid)
+        }
+    }
+
+    fun setRecordImage(uid: String, photoname:String, imgUri:Uri, listener: FireStorageListener){
+        Log.i(TAG, "setRecordImage")
+        var storageRef=FirebaseStorage.getInstance().reference.child("recordImages").child(photoname)
+        storageRef.putFile(imgUri).continueWithTask { task:Task<UploadTask.TaskSnapshot> ->
+            return@continueWithTask storageRef.downloadUrl
+        }.addOnSuccessListener{ uri->
+            var map=HashMap<String, Any>()
+            map["uid"]=uid
+            map["imgUri"]=uri.toString()
+            FirestoreModel.setData(map, "recordImages", null)
+            listener.onSuccess(uri.toString())
         }
     }
 
 
     interface FireStorageListener{
         fun onSuccess(message:Any)
-        fun onFailure()
+        fun onFailure(message:Any)
     }
 }

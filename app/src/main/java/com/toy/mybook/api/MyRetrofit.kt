@@ -15,10 +15,6 @@ object MyRetrofit {
     val TAG="MyRetrofit"
     val CONNECT_TIMEOUT_SEC=20000L
 
-    init{
-        Log.i(TAG, "init")
-    }
-
     fun create():Retrofit{
         val interceptor=HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)

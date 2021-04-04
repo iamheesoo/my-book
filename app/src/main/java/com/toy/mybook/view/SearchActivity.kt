@@ -16,11 +16,6 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
     lateinit var binding: ActivitySearchBinding
     val TAG="SearchActivity"
     var presenter: SearchContract.Present?=null
-    var isTitleClicked=false
-    var isAuthorClicked=false
-    var isPublisherClicked=false
-    var isISBNClicked=false
-    var tagCnt=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,81 +43,8 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
                 binding.editQuery.hint= R.string.search.toString()
             }
         }
-
-//        setTextViewClickListener()
-
     }
 
-    fun checkTagCnt(): Boolean{
-        return tagCnt==0
-    }
-
-//    fun setTextViewClickListener(){
-//        binding.tvTitle.setOnClickListener {
-//            if(!isTitleClicked) {
-//                if(!checkTagCnt()){
-//                    Toast.makeText(this, "한 개만 체크해주세요", Toast.LENGTH_SHORT).show()
-//                    return@setOnClickListener
-//                }
-//                binding.tvTitle.background = ContextCompat.getDrawable(this, R.drawable.btn_fill)
-//                tagCnt++
-//            }
-//            else{
-//                binding.tvTitle.background = ContextCompat.getDrawable(this, R.drawable.btn_blank)
-//                tagCnt--
-//            }
-//
-//            isTitleClicked = !isTitleClicked
-//        }
-//        binding.tvAuthor.setOnClickListener {
-//            if(!isAuthorClicked) {
-//                if(!checkTagCnt()){
-//                    Toast.makeText(this, "한 개만 체크해주세요", Toast.LENGTH_SHORT).show()
-//                    return@setOnClickListener
-//                }
-//                binding.tvAuthor.background = ContextCompat.getDrawable(this, R.drawable.btn_fill)
-//                tagCnt++
-//            }
-//            else{
-//                binding.tvAuthor.background = ContextCompat.getDrawable(this, R.drawable.btn_blank)
-//                tagCnt--
-//            }
-//
-//            isAuthorClicked = !isAuthorClicked
-//        }
-//        binding.tvPublisher.setOnClickListener {
-//            if(!isPublisherClicked) {
-//                if(!checkTagCnt()){
-//                    Toast.makeText(this, "하나만 체크해주세요", Toast.LENGTH_SHORT).show()
-//                    return@setOnClickListener
-//                }
-//                binding.tvPublisher.background = ContextCompat.getDrawable(this, R.drawable.btn_fill)
-//                tagCnt++
-//            }
-//            else{
-//                binding.tvPublisher.background = ContextCompat.getDrawable(this, R.drawable.btn_blank)
-//                tagCnt--
-//            }
-//
-//            isPublisherClicked = !isPublisherClicked
-//        }
-//        binding.tvIsbn.setOnClickListener {
-//            if(!checkTagCnt()){
-//                Toast.makeText(this, "한 개만 체크해주세요", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            if(!isISBNClicked) {
-//                binding.tvIsbn.background = ContextCompat.getDrawable(this, R.drawable.btn_fill)
-//                tagCnt++
-//            }
-//            else{
-//                binding.tvIsbn.background = ContextCompat.getDrawable(this, R.drawable.btn_blank)
-//                tagCnt--
-//            }
-//
-//            isISBNClicked = !isISBNClicked
-//        }
-//    }
 
     override fun startResultActivity(bookList: ArrayList<Item>) {
         Log.i(TAG, "startResultActivity")

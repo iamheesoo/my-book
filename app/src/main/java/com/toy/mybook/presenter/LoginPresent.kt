@@ -15,21 +15,14 @@ import java.security.NoSuchAlgorithmException
 
 class LoginPresent(_view:LoginContract.View):LoginContract.Present {
     val TAG="LoginPresenter"
-    private var view: LoginContract.View?=null
-    private val authModel=FirebaseAuthModel
-    private val storeModel=FirestoreModel
-    var auth:FirebaseAuth?=null
-
-    init{
-        view=_view
-        auth= FirebaseAuth.getInstance()
-    }
+    private val view=_view
+    private val auth=FirebaseAuth.getInstance()
 
     override fun signinAndSignUp(email:String, password:String) {
-        auth?.createUserWithEmailAndPassword(email, password)
-            ?.addOnCompleteListener { task->
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task->
                 if(task.isSuccessful) { // 회원가입은 완료된 상태
-                    view?.moveMainPage(task.result?.user)
+                    view.moveMainPage(task.result?.user)
                 }
                 else if(task.exception?.message.isNullOrEmpty()) Log.i(TAG, task.exception?.message.toString())
                 else signinEmail(email, password)
@@ -37,11 +30,11 @@ class LoginPresent(_view:LoginContract.View):LoginContract.Present {
     }
 
     override fun signinEmail(email:String, password:String) {
-        auth?.signInWithEmailAndPassword(email, password)
-            ?.addOnCompleteListener { task->
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task->
                 if(task.isSuccessful) {
-                    storeModel.addUserIfNotExists(auth?.uid!!, email)
-                    view?.moveMainPage(task.result?.user)
+                    FirestoreModel.addUserIfNotExists(auth.uid!!, email)
+                    view.moveMainPage(task.result?.user)
                 }
                 else Log.i(TAG, task.exception?.message.toString())
             }
@@ -49,11 +42,11 @@ class LoginPresent(_view:LoginContract.View):LoginContract.Present {
 
     override fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
         var credential= GoogleAuthProvider.getCredential(account?.idToken, null)
-        auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener { task->
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task->
                 if(task.isSuccessful){
-                    storeModel.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
-                    view?.moveMainPage(task.result?.user)
+                    FirestoreModel.addUserIfNotExists(task.result?.user?.uid!!, account?.email!!)
+                    view.moveMainPage(task.result?.user)
                 }
                 else{
                     Log.i(TAG, task.exception?.message.toString())

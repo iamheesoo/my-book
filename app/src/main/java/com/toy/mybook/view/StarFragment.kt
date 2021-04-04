@@ -48,13 +48,7 @@ class StarFragment : Fragment(),StarContract.View{
         lateinit var binding:ItemStarBookBinding
 
         init{
-            /**
-             * DB에서 stars 값 가져오기
-             * bookList=stars
-             */
-            Log.i(TAG, "init")
             presenter.getStarBookList()
-
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -74,20 +68,12 @@ class StarFragment : Fragment(),StarContract.View{
             binding.bookTvTitle.text=Html.fromHtml(book.title).toString()
             binding.bookTvAuthor.text=book.author
             binding.rating.rating= book.rating!!
-            holder.setIsRecyclable(false)
             binding.rating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
                 if(fromUser){
-
-                    Log.i(TAG, "rating clicked")
-                    Log.i(TAG, position.toString())
-                    /**
-                     * 하나 변경했는데 다른 것도 같이 변경되는 이슈
-                     */
-                    binding.rating.rating=rating
-//                presenter.setRating(book,rating)
+                    presenter.setRating(book,rating)
                 }
             }
-
+            holder.setIsRecyclable(false)
         }
 
         private inner class CustomViewHolder(view:View):RecyclerView.ViewHolder(view)
