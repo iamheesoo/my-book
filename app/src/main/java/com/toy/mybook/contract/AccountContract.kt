@@ -11,6 +11,7 @@ interface AccountContract {
         fun logout()
         fun getProfile()
         fun setProfileOnDB(uri: Uri)
+        fun setNickname(name: String)
     }
 
 }

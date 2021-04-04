@@ -33,6 +33,10 @@ class AccountPresenter(_view: AccountContract.View):AccountContract.Presenter {
         FireStorageModel.setProfile(FirebaseAuth.getInstance().uid!!, uri)
     }
 
+    override fun setNickname(name: String) {
+        FirestoreModel.setNickname(name)
+    }
+
     override fun logout() {
         FirebaseAuthModel.logout()
     }

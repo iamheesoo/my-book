@@ -41,7 +41,20 @@ class AccountFragment : Fragment(),AccountContract.View{
         binding.lv.adapter=adapter
         binding.lv.setOnItemClickListener { parent, view, position, id ->
             when(position){
-                2->{
+                0->{
+                    Log.i(TAG, "nickname click")
+                    val listener=object: CustomDialog.CustomDialogListener{
+                        override fun onPositiveClicked(data: String) {
+                            presenter.setNickname(data)
+                            binding.tvNickname.text=data
+                        }
+                    }
+                    CustomDialog.Builder(this.requireContext(),listener)
+                            .setTitle("닉네임 변경")
+                            .setOkButton("확인")
+                            .show()
+                }
+                1->{
                     activity?.finish()
                     startActivity(Intent(activity, LoginActivity::class.java))
                     presenter.logout()

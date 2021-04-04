@@ -85,6 +85,7 @@ object FirestoreModel{
         Log.i(TAG, "addUserToFirestore")
         val map= mutableMapOf<String, Any>()
         map["email"]=email
+        map["nickname"]=""
 
         firestore.collection("users").document(uid).set(map)
     }
@@ -145,6 +146,12 @@ object FirestoreModel{
         else{
             firestore.collection(collectionPath).document(documentPath).set(map)
         }
+    }
+
+    fun setNickname(name: String){
+        var map= mutableMapOf<String, Any>()
+        map["nickname"]=name
+        firestore.collection("users").document(uid!!).update(map)
     }
 
     interface FirestoreListener{
